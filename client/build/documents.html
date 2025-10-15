@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents - Aviation Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-plane"></i>
+                    <span>Aviation Bot</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="nav-section">
+                    <a href="index.html" class="nav-btn">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </a>
+                    <a href="documents.html" class="nav-btn active">
+                        <i class="fas fa-folder"></i>
+                        Documents
+                    </a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user"></i>
+                    <span>User</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="documents-header">
+                <div class="header-content">
+                    <h1>Document Management</h1>
+                    <p>Upload and manage your aviation documents, audio, and video files</p>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn primary" id="uploadBtn">
+                        <i class="fas fa-plus"></i>
+                        Upload Files
+                    </button>
+                </div>
+            </div>
+            
+            <div class="documents-content">
+                <!-- File Type Tabs -->
+                <div class="file-tabs">
+                    <button class="tab-btn active" data-tab="all">
+                        <i class="fas fa-th"></i>
+                        All Files
+                    </button>
+                    <button class="tab-btn" data-tab="pdfs">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF Documents
+                    </button>
+                    <button class="tab-btn" data-tab="audio">
+                        <i class="fas fa-file-audio"></i>
+                        Audio Files
+                    </button>
+                    <button class="tab-btn" data-tab="video">
+                        <i class="fas fa-file-video"></i>
+                        Video Files
+                    </button>
+                </div>
+                
+                <!-- File Statistics -->
+                <div class="file-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="pdfCount">0</div>
+                            <div class="stat-label">PDF Documents</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-audio"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="audioCount">0</div>
+                            <div class="stat-label">Audio Files</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-video"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="videoCount">0</div>
+                            <div class="stat-label">Video Files</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="processedCount">0</div>
+                            <div class="stat-label">Processed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- File List -->
+                <div class="files-container">
+                    <div class="files-header">
+                        <div class="files-title">
+                            <h3>Files</h3>
+                            <span class="files-count" id="filesCount">0 files</span>
+                        </div>
+                        <div class="files-actions">
+                            <button class="action-btn" id="refreshBtn" title="Refresh">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="action-btn" id="viewToggle" title="Toggle View">
+                                <i class="fas fa-th-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="files-list" id="filesList">
+                        <!-- Files will be loaded here -->
+                    </div>
+                    
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <div class="empty-content">
+                            <i class="fas fa-folder-open empty-icon"></i>
+                            <h3>No files uploaded</h3>
+                            <p>Upload your first aviation document to get started</p>
+                            <button class="action-btn primary" id="uploadFirstBtn">
+                                <i class="fas fa-upload"></i>
+                                Upload Files
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Processing Logs Section -->
+            <div class="logs-section">
+                <div class="logs-header">
+                    <div class="logs-title">
+                        <h3>Processing Logs</h3>
+                        <div class="logs-actions">
+                            <button class="action-btn" id="refreshFilesBtn" title="Refresh File Status">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="action-btn" id="clearLogsBtn" title="Clear Logs">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="logs-content" id="logsContent">
+                    <div class="log-entry">
+                        <span class="log-time">System ready</span>
+                        <span class="log-message">Document processing system initialized</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Upload Files</h3>
+                <button class="close-btn" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-tabs">
+                    <button class="tab-btn active" data-tab="pdf">PDF Documents</button>
+                    <button class="tab-btn" data-tab="media">Audio/Video</button>
+                    <button class="tab-btn" data-tab="batch">Batch Upload</button>
+                </div>
+                
+                <!-- PDF Upload Tab -->
+                <div class="tab-content active" id="pdfTab">
+                    <div class="upload-section">
+                        <div class="upload-area" id="pdfUploadArea">
+                            <i class="fas fa-file-pdf"></i>
+                            <h4>Upload PDF Documents</h4>
+                            <p>Drop PDF files here or click to browse</p>
+                            <input type="file" id="pdfInput" accept=".pdf" multiple hidden>
+                            <button class="upload-btn">Choose Files</button>
+                        </div>
+                        <div class="upload-info">
+                            <h5>Supported formats:</h5>
+                            <ul>
+                                <li>PDF documents (.pdf)</li>
+                                <li>Maximum file size: 50MB</li>
+                                <li>Text will be extracted and indexed for search</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Media Upload Tab -->
+                <div class="tab-content" id="mediaTab">
+                    <div class="upload-section">
+                        <div class="upload-area" id="mediaUploadArea">
+                            <i class="fas fa-file-audio"></i>
+                            <h4>Upload Audio/Video Files</h4>
+                            <p>Drop audio or video files here or click to browse</p>
+                            <input type="file" id="mediaInput" accept="audio/*,video/*" multiple hidden>
+                            <button class="upload-btn">Choose Files</button>
+                        </div>
+                        <div class="upload-info">
+                            <h5>Supported formats:</h5>
+                            <ul>
+                                <li>Audio: MP3, WAV, M4A, AAC</li>
+                                <li>Video: MP4, AVI, MOV, MKV</li>
+                                <li>Maximum file size: 100MB</li>
+                                <li>Audio will be transcribed and indexed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Batch Upload Tab -->
+                <div class="tab-content" id="batchTab">
+                    <div class="upload-section">
+                        <div class="upload-area" id="batchUploadArea">
+                            <i class="fas fa-layer-group"></i>
+                            <h4>Batch Upload</h4>
+                            <p>Upload multiple files of different types at once</p>
+                            <input type="file" id="batchInput" accept=".pdf,audio/*,video/*" multiple hidden>
+                            <button class="upload-btn">Choose Files</button>
+                        </div>
+                        <div class="upload-info">
+                            <h5>Batch upload features:</h5>
+                            <ul>
+                                <li>Upload PDFs, audio, and video files together</li>
+                                <li>Automatic file type detection</li>
+                                <li>Progress tracking for each file</li>
+                                <li>Error handling and retry options</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upload Progress -->
+                <div class="upload-progress" id="uploadProgress" style="display: none;">
+                    <div class="progress-header">
+                        <h4>Upload Progress</h4>
+                        <span class="progress-percentage" id="progressPercentage">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-details" id="progressDetails">
+                        <!-- Progress details will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- File Details Modal -->
+    <div class="modal" id="fileDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>File Details</h3>
+                <button class="close-btn" id="closeDetailsModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="fileDetailsContent">
+                <!-- File details will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="documents.js"></script>
+</body>
+</html>
+
+
+
+
